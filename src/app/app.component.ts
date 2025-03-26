@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './shared/navbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterModule, CommonModule, NavbarComponent,FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend-eventos';
+  constructor(private router: Router) {}
+
+  esRutaAuth(): boolean {
+    const ruta = this.router.url;
+    return ruta.includes('/login') || ruta.includes('/register');
+  }
 }

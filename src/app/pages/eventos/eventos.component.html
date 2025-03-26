@@ -1,0 +1,23 @@
+<div class="container my-5">
+  <h2 class="text-center fw-bold mb-5 display-5 text-primary">🎉 Eventos Disponibles</h2>
+
+  <div class="row g-4 justify-content-center">
+    <div *ngFor="let event of events" class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card border-0 shadow event-card h-100 rounded-4">
+        <img [src]="event.imageBase64" alt="Imagen del evento" class="card-img-top object-fit-cover" style="height: 200px;" />
+
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold mb-2 text-dark">{{ event.name }}</h5>
+          <p class="card-text small text-muted mb-1">
+            📅 {{ event.date | date:'longDate' }}
+          </p>
+          <a
+            class="btn btn-outline-primary btn-sm mt-2 rounded-pill"
+            [routerLink]="['/eventos', event.id]">
+            Ver detalles
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
