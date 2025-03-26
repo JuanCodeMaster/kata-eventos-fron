@@ -1,59 +1,189 @@
-# FrontendEventos
+# 🎉 Plataforma de Eventos - Frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+Frontend de la plataforma de eventos desarrollada con Angular. Permite a los usuarios autenticarse, visualizar eventos disponibles, reservar entradas, consultar sus reservas y más.
 
-## Development server
+## 📦 Características
 
-To start a local development server, run:
+- Inicio de sesión y registro de usuarios
+- Vista de eventos disponibles
+- Visualización de detalles del evento
+- Reserva de entradas para eventos
+- Vista de "Mis reservas"
+- Cancelación y activación de eventos (solo para admins)
+- Footer fijo para todas las vistas
+
+---
+
+## 🚀 Tecnologías
+
+- Angular 17 (Standalone components)
+- Bootstrap 5
+- RxJS
+- JWT para autenticación
+- Angular Router
+- PostgreSQL + Spring Boot en backend
+
+---
+
+## 📁 Estructura de Carpetas
+
+```
+src/
+├── app/
+│   ├── core/               # Servicios y helpers
+│   ├── models/             # Interfaces (DTOs)
+│   ├── pages/              # Componentes principales
+│   └── shared/             # Componentes reutilizables (como footer)
+└── assets/                 # Imágenes, logos, etc.
+```
+
+---
+
+## 📦 Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/frontend-eventos.git
+cd frontend-eventos
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Ejecutar el proyecto
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Visita 👉 http://localhost:4200
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🔐 Requisitos Previos
 
-```bash
-ng generate component component-name
+- Node.js (v18+)
+- Angular CLI (`npm install -g @angular/cli`)
+- Backend corriendo en `http://localhost:8082` o el URL correspondiente
+- Base de datos PostgreSQL con los datos precargados (ver `init_db.sql` en backend)
+
+---
+
+## 📲 Consumo de Endpoints
+
+Los servicios consumen los siguientes endpoints del backend:
+
+### 🔹 Obtener todos los eventos
+
+```ts
+GET /api/events
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Uso:
 
-```bash
-ng generate --help
+```ts
+this.eventService.getEvents().subscribe(data => this.events = data);
 ```
 
-## Building
+---
 
-To build the project run:
+### 🔹 Obtener evento por ID
 
-```bash
-ng build
+```ts
+GET /api/events/{id}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Uso:
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```ts
+this.eventService.getEventById(id).subscribe(data => this.event = data);
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+### 🔹 Crear reserva
 
-```bash
-ng e2e
+```ts
+POST /api/reservations
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Body:
 
-## Additional Resources
+```json
+{
+  "eventId": 1,
+  "userEmail": "juan@example.com"
+}
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Uso:
+
+```ts
+this.reservationService.reservarEvento(payload).subscribe(...);
+```
+
+---
+
+### 🔹 Consultar reservas de un usuario
+
+```ts
+GET /api/reservations/user/{email}
+```
+
+Uso:
+
+```ts
+this.reservationService.getReservasPorUsuario(email).subscribe(...);
+```
+
+---
+
+### 🔹 Cancelar un evento
+
+```ts
+DELETE /api/events/{id}
+```
+
+---
+
+### 🔹 Reactivar un evento
+
+```ts
+PUT /api/events/{id}
+```
+
+Se vuelve a enviar el `EventRequestDTO` con el `status: "ACTIVO"` (opcionalmente desde backend).
+
+---
+
+## 🖼️ Footer global
+
+El componente `<app-footer>` se encuentra en:
+
+```
+src/app/shared/footer/footer.component.ts
+```
+
+Está incluido globalmente en `app.component.html`.
+
+---
+
+## 🧪 ToDo (Opcional)
+
+- [ ] Añadir roles de admin en frontend
+- [ ] Notificaciones con Toast
+- [ ] Lazy loading de módulos
+- [ ] Animaciones
+
+---
+
+## 🧑‍💻 Autor
+
+Desarrollado por **Juan José Vélez** 🧠  
+GitHub: [@JuanCodeMaster](https://github.com/JuanCodeMaster)
+
+---
